@@ -1,0 +1,215 @@
+{
+  "organs": [
+    {
+      "file": "01_typography_role_organ.json",
+      "id": "axm.text.organ.typography_role_organ",
+      "purpose": "Assigns semantic roles and stable hierarchy tokens instead of one-off text styling.",
+      "status": "WORKING",
+      "version": "0.1.0"
+    },
+    {
+      "file": "02_responsive_scale_organ.json",
+      "id": "axm.text.organ.responsive_scale_organ",
+      "purpose": "Adapts text to viewport, pixel density, viewing distance, and user scaling.",
+      "status": "WORKING",
+      "version": "0.1.0"
+    },
+    {
+      "file": "03_contrast_guardian_organ.json",
+      "id": "axm.text.organ.contrast_guardian_organ",
+      "purpose": "Measures contrast and adds protective layers when the background is unsafe or dynamic.",
+      "status": "WORKING",
+      "version": "0.1.0"
+    },
+    {
+      "file": "04_background_separation_organ.json",
+      "id": "axm.text.organ.background_separation_organ",
+      "purpose": "Creates readable foreground separation using plates, gradients, blur, and local scrims.",
+      "status": "WORKING",
+      "version": "0.1.0"
+    },
+    {
+      "file": "05_effect_stack_organ.json",
+      "id": "axm.text.organ.effect_stack_organ",
+      "purpose": "Builds effects in ordered layers so decoration never destroys the glyph core.",
+      "status": "WORKING",
+      "version": "0.1.0"
+    },
+    {
+      "file": "06_rendering_strategy_organ.json",
+      "id": "axm.text.organ.rendering_strategy_organ",
+      "purpose": "Routes tiny, normal, scalable, and transformed text to suitable raster/SDF/MSDF strategies.",
+      "status": "WORKING",
+      "version": "0.1.0"
+    },
+    {
+      "file": "07_localization_fallback_organ.json",
+      "id": "axm.text.organ.localization_fallback_organ",
+      "purpose": "Protects shaping, fallback fonts, expansion, direction, and script coverage.",
+      "status": "WORKING",
+      "version": "0.1.0"
+    },
+    {
+      "file": "08_motion_safety_organ.json",
+      "id": "axm.text.organ.motion_safety_organ",
+      "purpose": "Adds purposeful text motion with reduced-motion fallbacks and readability timing.",
+      "status": "WORKING",
+      "version": "0.1.0"
+    },
+    {
+      "file": "09_data_typography_organ.json",
+      "id": "axm.text.organ.data_typography_organ",
+      "purpose": "Optimizes numbers, counters, prices, timers, and tables.",
+      "status": "WORKING",
+      "version": "0.1.0"
+    },
+    {
+      "file": "10_qa_regression_organ.json",
+      "id": "axm.text.organ.qa_regression_organ",
+      "purpose": "Defines stress tests for scale, backgrounds, localization, and screenshot drift.",
+      "status": "WORKING",
+      "version": "0.1.0"
+    },
+    {
+      "file": "11_copy_readability_organ.json",
+      "id": "axm.text.organ.copy_readability_organ",
+      "purpose": "Checks casing, length, density, labels, and concise action wording.",
+      "status": "WORKING",
+      "version": "0.1.0"
+    },
+    {
+      "file": "12_platform_adapter_router_organ.json",
+      "id": "axm.text.organ.platform_adapter_router_organ",
+      "purpose": "Maps one resolved text plan into platform-specific implementation hints.",
+      "status": "WORKING",
+      "version": "0.1.0"
+    },
+    {
+      "file": "13_material_finish_organ.json",
+      "id": "axm.text.organ.material_finish",
+      "purpose": "Maps moods such as gold, silver, chrome, neon metal, and holographic into gradient, bevel, sheen, and sparkle treatments without sacrificing readability.",
+      "status": "unspecified",
+      "version": "0.2.0"
+    },
+    {
+      "file": "14_sheen_highlight_organ.json",
+      "id": "axm.text.organ.sheen_highlight",
+      "purpose": "Controls moving or static highlight sweeps so special text feels alive without becoming noisy or unreadable.",
+      "status": "unspecified",
+      "version": "0.2.0"
+    },
+    {
+      "file": "15_glitch_safety_organ.json",
+      "id": "axm.text.organ.glitch_safety",
+      "purpose": "Applies restrained channel offsets, jitter, and distortion rules so futuristic glitch text stays readable and does not become messy or inaccessible.",
+      "status": "unspecified",
+      "version": "0.3.0"
+    },
+    {
+      "file": "16_shader_routing_organ.json",
+      "id": "axm.text.organ.shader_routing",
+      "purpose": "Routes premium text effects toward engine-native shader/material implementations so glow, sheen, metal, and glitch remain modular and reusable.",
+      "status": "unspecified",
+      "version": "0.4.0"
+    },
+    {
+      "file": "17_preset_gallery_organ.json",
+      "id": "axm.text.organ.preset_gallery",
+      "purpose": "Packages safe combinations of semantic role, visual recipe, surface protection, and effect tuning into discoverable reusable presets.",
+      "status": "unspecified",
+      "version": "0.5.0"
+    },
+    {
+      "file": "18_render_cost_budget_organ.json",
+      "id": "axm.text.organ.render_cost_budget",
+      "purpose": "Scales blur, glow, shadow, sheen, sparkle, motion, and glitch cost to target hardware without silently changing semantic text roles.",
+      "status": "unspecified",
+      "version": "0.6.0"
+    },
+    {
+      "file": "19_preset_workshop_organ.json",
+      "id": "axm.text.organ.preset_workshop",
+      "purpose": "Lets humans create, import, replace, delete, and export local presets without modifying the built-in catalog.",
+      "status": "unspecified",
+      "version": "0.6.0"
+    },
+    {
+      "file": "20_bundle_integrity_rollback_organ.json",
+      "id": "axm.text.organ.bundle_integrity_rollback",
+      "purpose": "Makes compiled text bundles verifiable, reconstructable, and disposable without mutating canonical source.",
+      "status": "unspecified",
+      "version": "0.7.0"
+    },
+    {
+      "file": "21_batch_library_compiler_organ.json",
+      "id": "axm.text.organ.batch_library_compiler",
+      "purpose": "Compiles multiple presets into a navigable, verified platform library for reuse across many games, apps, and software surfaces.",
+      "status": "unspecified",
+      "version": "0.7.0"
+    },
+    {
+      "file": "22_glyph_fallback_audit_organ.json",
+      "id": "axm.text.organ.glyph_fallback_audit",
+      "purpose": "Inspects Unicode scripts, text direction, combining marks, hidden controls, replacement characters, private-use glyphs, and fallback requirements before visual effects are applied.",
+      "status": "unspecified",
+      "version": "0.7.0"
+    },
+    {
+      "file": "23_static_asset_fallback_organ.json",
+      "id": "axm.text.organ.static_asset_fallback",
+      "purpose": "Bakes a portable SVG representation from the exact resolved text plan, with optional PNG rendering for software, game, marketing, or temporary fallback use.",
+      "status": "unspecified",
+      "version": "0.8.0"
+    },
+    {
+      "file": "24_visual_qa_matrix_organ.json",
+      "id": "axm.text.organ.visual_qa_matrix",
+      "purpose": "Generates comparable assets across presets, recipes, and render quality tiers so visual drift and over-expensive effects are inspectable before intake.",
+      "status": "unspecified",
+      "version": "0.8.0"
+    },
+    {
+      "file": "25_actual_font_coverage_organ.json",
+      "id": "axm.text.organ.actual_font_coverage",
+      "purpose": "Parses project-owned TTF, OTF, or TTC files directly and verifies that the chosen face contains every required character before effects are compiled.",
+      "status": "unspecified",
+      "version": "0.9.0"
+    },
+    {
+      "file": "26_font_capability_registry_organ.json",
+      "id": "axm.text.organ.font_capability_registry",
+      "purpose": "Builds local metadata registries for project fonts, including names, hashes, Unicode coverage, variable axes, shaping tables, color-font support, and licensing metadata.",
+      "status": "unspecified",
+      "version": "0.9.0"
+    },
+    {
+      "file": "27_font_fallback_planner_organ.json",
+      "id": "axm.text.organ.font_fallback_planner",
+      "purpose": "Selects a minimal ordered set of locally registered fonts that collectively covers the requested text.",
+      "status": "unspecified",
+      "version": "0.9.0"
+    },
+    {
+      "file": "28_layout_resilience_organ.json",
+      "id": "axm.text.organ.layout_resilience",
+      "purpose": "Estimates line wrapping, overflow, safe-area use, and viewing-distance risks before text enters a target renderer.",
+      "status": "unspecified",
+      "version": "1.0.0"
+    },
+    {
+      "file": "29_pseudolocalization_stress_organ.json",
+      "id": "axm.text.organ.pseudolocalization_stress",
+      "purpose": "Creates deterministic accented, expanded, and pseudo-RTL variants while preserving common placeholders and tags.",
+      "status": "unspecified",
+      "version": "1.0.0"
+    },
+    {
+      "file": "30_safe_area_viewing_distance_organ.json",
+      "id": "axm.text.organ.safe_area_viewing_distance",
+      "purpose": "Applies platform-aware safe-area and minimum-size guidance for TV, console, handheld, mobile, desktop, VR, and world-space text.",
+      "status": "unspecified",
+      "version": "1.0.0"
+    }
+  ],
+  "schema": "axm.organ-catalog/v1"
+}
