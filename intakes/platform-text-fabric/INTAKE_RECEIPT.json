@@ -1,0 +1,16 @@
+{
+  "aggregate_manifest_sha256": "9850e1303c2e59312c52525493c84868c28e9a066d90b7b447e366d9e321fdd6",
+  "authority_change": false,
+  "copied_bytes": 30915,
+  "copied_file_count": 34,
+  "copy_verified_byte_exact": true,
+  "donor_mutated": false,
+  "organ_descriptor_count": 30,
+  "schema": "axm.organ-fabric.intake/v1",
+  "source_commit": "27757ace6133b243a200b0463e427c8b04d5a8e3",
+  "source_repository": "mike-axiom-mir/axm-collaboration-platform",
+  "source_root": "tools/text-fabric/runtime",
+  "target_repository": "mike-axiom-mir/axm-organ-fabric",
+  "target_root": "intakes/platform-text-fabric",
+  "verification_ceiling": "descriptor integrity, unique id/version identity, registry loading and exact donor bytes; no claim of independent organ execution"
+}
