@@ -1,0 +1,167 @@
+name: Verified Platform Text Fabric organ intake
+
+on:
+  push:
+    branches:
+      - chatgpt/platform-text-organ-intake
+    paths:
+      - .github/workflows/intake-platform-text-organs.yml
+
+permissions:
+  contents: write
+
+jobs:
+  intake:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Organ Fabric
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check out pinned Platform donor
+        uses: actions/checkout@v4
+        with:
+          repository: mike-axiom-mir/axm-collaboration-platform
+          ref: 27757ace6133b243a200b0463e427c8b04d5a8e3
+          path: _platform
+          persist-credentials: false
+
+      - name: Verify donor revision
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected="27757ace6133b243a200b0463e427c8b04d5a8e3"
+          observed="$(git -C _platform rev-parse HEAD)"
+          test "$observed" = "$expected" || { echo "SOURCE_MOVED expected=$expected observed=$observed"; exit 1; }
+
+      - name: Copy proven organ descriptor family
+        shell: bash
+        run: |
+          set -euo pipefail
+          target="intakes/platform-text-fabric"
+          rm -rf "$target"
+          mkdir -p "$target/runtime/docs"
+          rsync -a _platform/tools/text-fabric/runtime/organs/ "$target/runtime/organs/"
+          cp _platform/tools/text-fabric/runtime/docs/ORGAN_MAP.md "$target/runtime/docs/ORGAN_MAP.md"
+          cp _platform/tools/text-fabric/runtime/README.md "$target/runtime/README.md"
+          cp _platform/tools/text-fabric/runtime/PROVENANCE.md "$target/runtime/PROVENANCE.md"
+          cp _platform/tools/text-fabric/runtime/BUILD_VALIDATION_REPORT.md "$target/runtime/BUILD_VALIDATION_REPORT.md"
+
+      - name: Verify source bytes, descriptor identities and receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, json
+
+          source=Path('_platform/tools/text-fabric/runtime')
+          target=Path('intakes/platform-text-fabric/runtime')
+          rels=[]
+          for src in sorted((source/'organs').rglob('*')):
+              if src.is_file(): rels.append(src.relative_to(source))
+          rels += [Path('docs/ORGAN_MAP.md'),Path('README.md'),Path('PROVENANCE.md'),Path('BUILD_VALIDATION_REPORT.md')]
+
+          rows=[]
+          for rel in sorted(set(rels), key=lambda p:p.as_posix()):
+              src=source/rel; dst=target/rel
+              if not dst.is_file(): raise SystemExit(f'MISSING_COPY:{rel.as_posix()}')
+              a=src.read_bytes(); b=dst.read_bytes()
+              if a != b: raise SystemExit(f'BYTE_MISMATCH:{rel.as_posix()}')
+              rows.append({'path':rel.as_posix(),'bytes':len(a),'sha256':hashlib.sha256(a).hexdigest()})
+
+          descriptors=[]
+          identities=set()
+          for path in sorted((target/'organs').glob('*.json')):
+              data=json.loads(path.read_text())
+              oid=data.get('id'); version=data.get('version')
+              if not isinstance(oid,str) or not oid.strip(): raise SystemExit(f'MISSING_ID:{path.name}')
+              if not isinstance(version,str) or not version.strip(): raise SystemExit(f'MISSING_VERSION:{path.name}')
+              key=(oid,version)
+              if key in identities: raise SystemExit(f'DUPLICATE_ID_VERSION:{oid}@{version}')
+              identities.add(key)
+              descriptors.append({'file':path.name,'id':oid,'version':version,'status':data.get('status','unspecified'),'purpose':data.get('purpose','')})
+          if len(descriptors) < 10: raise SystemExit(f'ORGAN_FAMILY_TOO_SMALL:{len(descriptors)}')
+
+          digest=hashlib.sha256(''.join(f"{r['path']}\0{r['bytes']}\0{r['sha256']}\n" for r in rows).encode()).hexdigest()
+          receipt={
+              'schema':'axm.organ-fabric.intake/v1',
+              'source_repository':'mike-axiom-mir/axm-collaboration-platform',
+              'source_commit':'27757ace6133b243a200b0463e427c8b04d5a8e3',
+              'source_root':'tools/text-fabric/runtime',
+              'target_repository':'mike-axiom-mir/axm-organ-fabric',
+              'target_root':'intakes/platform-text-fabric',
+              'copied_file_count':len(rows),
+              'copied_bytes':sum(r['bytes'] for r in rows),
+              'organ_descriptor_count':len(descriptors),
+              'aggregate_manifest_sha256':digest,
+              'copy_verified_byte_exact':True,
+              'donor_mutated':False,
+              'authority_change':False,
+              'verification_ceiling':'descriptor integrity, unique id/version identity, registry loading and exact donor bytes; no claim of independent organ execution',
+          }
+          Path('intakes/platform-text-fabric/INTAKE_RECEIPT.json').write_text(json.dumps(receipt,indent=2,sort_keys=True)+'\n')
+          Path('intakes/platform-text-fabric/CATALOG.json').write_text(json.dumps({'schema':'axm.organ-catalog/v1','organs':descriptors},indent=2,sort_keys=True)+'\n')
+          PY
+
+          cat > intakes/platform-text-fabric/index.js <<'EOF'
+          'use strict';
+          const fs = require('fs');
+          const path = require('path');
+          const root = path.join(__dirname, 'runtime', 'organs');
+
+          function list() {
+            return fs.readdirSync(root)
+              .filter(name => name.endsWith('.json'))
+              .sort()
+              .map(name => ({ file: name, ...JSON.parse(fs.readFileSync(path.join(root, name), 'utf8')) }));
+          }
+
+          function get(id, version) {
+            return list().find(o => o.id === id && (version === undefined || o.version === version)) || null;
+          }
+
+          module.exports = { list, get };
+          EOF
+
+          cat > intakes/platform-text-fabric/README.md <<'EOF'
+          # Platform Text Fabric organ intake
+
+          Source-preserving intake of the committed Text Fabric organ descriptor family from the pinned Collaboration Platform revision.
+
+          These are real donor organ bodies as committed by the donor: structured organ descriptors plus their organ map and provenance/validation context. This intake does **not** upgrade them into independently executable organs if the donor did not provide an independent execution body at this boundary.
+
+          `index.js` supplies caller-neutral discovery by `id` and optional `version`; it does not grant authority or rewrite donor state.
+          EOF
+
+      - name: Smoke-test registry
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const organs=require('./intakes/platform-text-fabric');
+          const all=organs.list();
+          if(all.length < 10) throw new Error('organ registry unexpectedly small');
+          for(const organ of all){
+            if(!organ.id || !organ.version) throw new Error('missing organ identity');
+            const fetched=organs.get(organ.id, organ.version);
+            if(!fetched || fetched.file !== organ.file) throw new Error('registry lookup mismatch');
+          }
+          console.log('ORGAN_INTAKE_OK count='+all.length);
+          NODE
+
+      - name: Commit verified intake
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf _platform
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add intakes/platform-text-fabric
+          if git diff --cached --quiet; then
+            echo "No intake changes"
+            exit 0
+          fi
+          git commit -m "Import proven Text Fabric organ family"
+          git push origin HEAD:${GITHUB_REF_NAME}
