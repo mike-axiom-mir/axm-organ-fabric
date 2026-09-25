@@ -47,3 +47,7 @@ A future **Organ Factory** is one subsystem inside this Fabric that can discover
 ## Constitutional boundary
 
 Internal AXM merge/canon authority comes from grounded fit to the four roots: Truth, Agency / non-domination, Continuity, and Wisdom before speed. Technical write access is not constitutional authority.
+
+## Reusable simulation method
+
+[Simulation experience and reuse](SIMULATION_EXPERIENCE_REUSE.md) connects the shared method to this repository, with existing machinery, proposed experiments and explicit evidence limits.
